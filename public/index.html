@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>React App</title>
+    <style>
+      .overlaybox {position:relative;width:360px;height:350px;background:url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png') no-repeat;padding:15px 10px;}
+      .overlaybox div, ul {overflow:hidden;margin:0;padding:0;}
+      .overlaybox li {list-style: none;}
+      .overlaybox .boxtitle {color:#fff;font-size:16px;font-weight:bold;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png') no-repeat right 120px center;margin-bottom:8px;}
+      .overlaybox .first {position:relative;width:247px;height:136px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumb.png') no-repeat;margin-bottom:8px;}
+      .first .text {color:#fff;font-weight:bold;}
+      .first .triangle {position:absolute;width:48px;height:48px;top:0;left:0;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/triangle.png') no-repeat; padding:6px;font-size:18px;}
+      .first .movietitle {position:absolute;width:100%;bottom:0;background:rgba(0,0,0,0.4);padding:7px 15px;font-size:14px;}
+      .overlaybox ul {width:247px;}
+      .overlaybox li {position:relative;margin-bottom:2px;background:#2b2d36;padding:5px 10px;color:#aaabaf;line-height: 1;}
+      .overlaybox li span {display:inline-block;}
+      .overlaybox li .number {font-size:16px;font-weight:bold;}
+      .overlaybox li .title {font-size:13px;}
+      .overlaybox ul .arrow {position:absolute;margin-top:8px;right:25px;width:5px;height:3px;background:url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/updown.png') no-repeat;} 
+      .overlaybox li .up {background-position:0 -40px;}
+      .overlaybox li .down {background-position:0 -60px;}
+      .overlaybox li .count {position:absolute;margin-top:5px;right:15px;font-size:10px;}
+      .overlaybox li:hover {color:#fff;background:#d24545;}
+      .overlaybox li:hover .up {background-position:0 0px;}
+      .overlaybox li:hover .down {background-position:0 -20px;}   
+
+
+      .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+      .wrap * {padding: 0;margin: 0;}
+      .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+      .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+      .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+      .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+      .info .close:hover {cursor: pointer;}
+      .info .body {position: relative;overflow: hidden;}
+      .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+      .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+      .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+      .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+      .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+      .info .link {color: #5085BB;}
+      ul {
+        list-style: none;
+        height: 100px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+      }
+      ::-webkit-scrollbar { width: 20px; }
+      ::-webkit-scrollbar-thumb { background: #a9a9a9; }
+
+      #parent4 {
+        position: fixed;
+        border: 1px solid blue;
+        background-color: rgba(255,200,200,0.5);  
+        width: 200px;
+        height: 70px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index:100;
+      }
+
+      #parent5 {
+        position: fixed;
+        border: 1px solid blue;
+        background-color: rgba(0,104,242,0.5); 
+        width: 90px;
+        height: 40px;
+        bottom: 100;
+        left: 90px;
+        right: 0;
+        z-index:100;
+      }
+
+      #parent6 {
+        position: fixed;
+        border: 1px solid blue;
+        background-color: rgba(55, 160, 60, 0.5); 
+        width: 90px;
+        height: 40px;
+        bottom: 50;
+        left: 0;
+        right: 0;
+        z-index:100;
+      }
+
+      .btn-primary {
+        color: #fff;
+        background-color: #2E2EFE;
+        border-color: #2E2EFE;
+      }
+      .btn-primary1 {
+        color: #3c3ac6;
+        background-color: #2E2EFE;
+        border-color: #2E2EFE;
+      }
+      </style>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <!-- <div id="map" style="width:100%;height:1350px;"></div> -->
+    <div id="root"></div>
+
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    
+        <div id="root2" style="display:none">
+          <p style="margin-top:12px">
+              <h6>지도 확대 비율에 따라, 단위 면적당 확진자 수가 표시 됩니다. </h6>
+              <!-- <em class="link">
+                <a href="/map_info.json" target="_blank">여기를 클릭하세요!</a>
+              </em> -->
+          </p>
+          <button type="button" class="btn btn-primary">
+            확진<span class="badge badge-light">53</span>
+            <span class="sr-only">unread messages</span>
+          </button>
+          <button type="button" class="btn btn-secondary">
+            완치 <span class="badge badge-light">16</span>
+            <span class="sr-only">unread messages</span>
+          </button>
+          <button type="button" class="btn btn-danger">
+            사망 <span class="badge badge-light">0</span>
+            <span class="sr-only">unread messages</span>
+          </button>
+          <button type="button" class="btn btn-warning">
+            의심 <span class="badge badge-light">11,122</span>
+            <span class="sr-only">unread messages</span>
+          </button>
+          <button type="button" id="via_path" class="btn btn-success">이동경로 열기/닫기</button>
+            <ul class="list-group list-group-flush appendc">
+            </ul>
+          <button type="button" id="pat_list" class="btn btn-success">확진자 번호별 위치 찾기</button>
+          <div id="appendp" style="margin-top:5px"> </div>
+            <!-- <p>
+              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Button with data-target
+              </button>
+              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Button with data-target
+              </button>
+              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Button with data-target
+              </button>
+            </p> -->
+            <!-- <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+              </div>
+            </div> -->
+          </div>
+          <button id="parent4" style="display:none" class="btn btn-primary1" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            상단 노출/미노출
+          </button>
+          <button id="parent5" style="display:none" class="btn btn-primary1" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            멀어지기
+          </button>
+          <button id="parent6" style="display:none" class="btn btn-primary1" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            HOME
+          </button>
+          
+    <div id="map" style="width:100%;height:900px;"></div>
+    
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0122a51b049c5988d8e24c4ba335daf4&libraries=clusterer"></script>
+    <script>
+
+        function panTo(a,b) {
+          map.setLevel(4);
+          var moveLatLon = new kakao.maps.LatLng(a, b);
+          map.panTo(moveLatLon);  
+          $("#root2").hide()
+        }   
+
+        $("#parent5").click(function(){
+          map.setLevel(13);
+        })
+        
+        $("#parent6").click(function(){
+          window.location.href = '/'
+        })
+
+        var rootflag = true
+        $("#parent4").click(function(){
+          if(rootflag){
+            $("#root2").show()
+            rootflag = false
+          }else{
+            $("#root2").hide()
+            rootflag = true
+          }
+        })
+        var via_flag = true
+        $("#via_path").click(function(){
+          if(via_flag){
+            $(".appendc").hide()
+            via_flag = false
+          }else{
+            $(".appendc").show()
+            via_flag = true
+          }
+        })
+        var pat_flag = true
+        $("#pat_list").click(function(){
+          if(pat_flag){
+            $("#appendp").show()
+            pat_flag = false
+          }else{
+            $("#appendp").hide()
+            pat_flag = true
+          }
+        })
+
+        
+        $( document ).ready(function() {
+          // $("#root2").hide()
+          $(".appendc").hide()
+          $("#via_path").hide()
+          
+        });
+
+        var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
+            center : new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표 
+            level : 13 // 지도의 확대 레벨 
+        });
+        
+        // 마커 클러스터러를 생성합니다 
+        var clusterer = new kakao.maps.MarkerClusterer({
+            map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+            averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+            minLevel: 5 // 클러스터 할 최소 지도 레벨 
+        });
+    
+         var flag = true;
+         var popflag = true;
+         var buttonflag = true;
+        // 데이터를 가져오기 위해 jQuery를 사용합니다
+        // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
+        $.get("/map_info.json", function(data) {
+            // 데이터에서 좌표 값을 가지고 마커를 표시합니다
+            // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
+            var markers = $(data.positions).map(function(i, position) {
+              var imageSrc = 'hospital.png', // 마커이미지의 주소입니다
+              imageSize = new kakao.maps.Size(60, 70), // 마커이미지의 크기입니다
+              imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+                  
+              var pa_num = Number(position.num)
+              var pa_numstr = ""
+              if(pa_num < 10){
+                pa_numstr = "0"+pa_num
+              }else{
+                pa_numstr = ""+pa_num
+              }
+              $("#appendp").append("<button class=\"btn btn-outline-info\" onclick=\"panTo("+position.lat+","+position.lng+")\">"+pa_numstr+"번</button>")
+              $("#appendp").hide()
+
+              imageSrc = 'hop'+pa_numstr+'.png'
+              if(position.finish == '완치'){
+                    imageSrc = 'clearp'+pa_numstr+'.png'
+              }
+                
+              // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+              var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+              markerPosition = new kakao.maps.LatLng(37.54699, 127.09598); // 마커가 표시될 위치입니다
+                var marker = new kakao.maps.Marker({
+                    position : new kakao.maps.LatLng(position.lat, position.lng), 
+                    image: markerImage // 마커이미지 설정 
+                });
+
+                // 커스텀 오버레이에 표시할 내용입니다     
+                // HTML 문자열 또는 Dom Element 입니다 
+                var content = '<div class="overlaybox">' +
+                    '    <div class="boxtitle">'+position.num+'번째 확진자  이동경로</div>' +
+                    '    <div class="boxtitle2" style="margin-left: 150px;"><font color="white"">닫기 버튼 [X]</font></div>'+
+                    '    <div class="first">' +
+                    '        <div class="triangle text">'+position.num+'</div>' +
+                    '        <div class="movietitle text">'+position.comment+'</div>' +
+                    '    </div>' +
+                    '    <ul style = "overflow:scroll">' +
+                    '        <li class="up">' +
+                    '            <span class="number">격리:</span>' +
+                    '            <span class="title" style="font-weight:bold;color:white">'+position.date+'</span>' +
+                    '            <span class="number">완치:</span>' +
+                    '            <span class="title" style="font-weight:bold;color:white">'+position.finish_date+'</span>' +
+                    // '            <span class="arrow up"></span>' +
+                    // '            <span class="count"></span>' +
+                    '        </li>' +
+                    '        <li class="up">' +
+                    '            <span class="number">성별:</span>' +
+                    '            <span class="title" style="font-weight:bold;color:white">'+position.gender+'</span>' +
+                    '            <span class="number">생년:</span>' +
+                    '            <span class="title" style="font-weight:bold;color:white">'+position.birth+'</span>' +
+                    '            <span class="number">국적:</span>' +
+                    '            <span class="title" style="font-weight:bold;color:white">'+position.nation+'</span>' +
+                    '        </li>' +
+                    '        <li class="up">' +
+                    '            <span class="number">접속자수:</span>' +
+                    '            <span class="title" style="font-weight:bold;color:white">'+position.contact+'</span>' +
+                    '            <span class="number">격리조치중:</span>' +
+                    '            <span class="title" style="font-weight:bold;color:white">'+position.Isolation+'</span>' +
+                    '        </li>' +
+                    '    </ul>' +
+                    '</div>';
+                
+
+
+                // 커스텀 오버레이를 생성합니다
+                var lat = Number(position.lat)
+                var lng = Number(position.lng)
+                var lat_string = lat.toString()
+                var lng_string = lng.toString()
+                var customOverlay = new kakao.maps.CustomOverlay({
+                    position: new kakao.maps.LatLng(lat_string, lng_string), 
+                    content: content,
+                    xAnchor: 0.5,
+                    yAnchor: 0.5,
+                    zIndex: 0
+                });
+                
+                    // kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+                    //   if(buttonflag){
+                    //     // customOverlay.setMap(null);
+                    //   }
+                    //   flag = true
+                    // })
+
+                var clickHandler = function(mouseEvent) {    
+                  customOverlay.setMap(null);
+                  flag = true
+                }; 
+
+                var clickHandler1 = function(event) {    
+                    if(flag){
+                      //마커생성
+                      customOverlay.setMap(map);
+                      flag = false
+                      // kakao.maps.event.removeListener(map, 'click', clickHandler);
+                      $(".boxtitle").click(function(){
+                        buttonflag = false
+                        // kakao.maps.event.addListener(map, 'click', clickHandler)
+                        // kakao.maps.event.removeListener(marker, 'click', clickHandler1);
+
+                        var beforeStr = position.via_path
+                        var afterStr = beforeStr.split('#');
+                        $(".list-group-item").remove()
+                        for(var i=0; i<afterStr.length ; i++){
+                          $(".appendc").append("<li class=\"list-group-item\">"+afterStr[i]+"</li>")
+                        }
+                        $("#root2").show()
+                        $(".appendc").show()
+                        $("#via_path").show()
+                        $('html').scrollTop(0);
+
+                      });
+                      $(".boxtitle2").click(function(){
+                        // alert('4')
+                        $("#via_path").hide()
+                        $(".appendc").hide()
+                        buttonflag = false
+                        customOverlay.setMap(null);
+                        // kakao.maps.event.addListener(map, 'click', clickHandler)
+                        flag = true
+                      });
+                      if(buttonflag){
+                        // kakao.maps.event.addListener(map, 'click', clickHandler)
+                      }
+
+                      $(".first").css({"background":"url("+position.hospi_img+")", "background-size" :"247px 247px"}); 	
+                      
+                    }else{
+                      // alert('a')
+                      customOverlay.setMap(null);
+                      flag = true
+                    }
+                }; 
+
+                //마커 클릭했을때
+                kakao.maps.event.addListener(marker, 'click', clickHandler1)
+              
+
+                // function func1(inflag){
+                //   alert('func1')
+                //   if(inflag){
+                //     kakao.maps.event.addListener(map, 'click', clickHandler)
+                //     kakao.maps.event.removeListener(map, 'click', clickHandler);
+                //   }
+                // }
+
+
+
+              return marker;
+            });
+    
+            // 클러스터러에 마커들을 추가합니다
+            // marker.setMap(map); 
+            clusterer.addMarkers(markers);
+
+
+        });
+    </script>
+
+
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
